@@ -5,9 +5,10 @@ project(logr
 
 # library
 add_library(logr
-    src/logr.cpp)
+    src/logger.cpp
+    src/record.cpp)
 target_compile_features(logr PUBLIC cxx_std_17)
-target_include_directories(logr INTERFACE include)
+target_include_directories(logr PUBLIC include)
 target_include_directories(logr PRIVATE include/logr)
 target_link_libraries(logr PUBLIC meta)
 
