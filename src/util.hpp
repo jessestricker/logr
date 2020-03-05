@@ -2,6 +2,7 @@
 #define LOGR_UTIL_HPP
 
 #include <ios>
+#include <locale>
 
 namespace logr::util {
   class IosStateSave final {
@@ -31,6 +32,7 @@ namespace logr::util {
     static void reset_state(std::ios& ios) {
       static const auto default_state = std::ios{nullptr};
       copy_state(default_state, ios);
+      ios.imbue(std::locale::classic());
     }
   };
 }

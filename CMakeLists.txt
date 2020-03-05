@@ -11,6 +11,7 @@ endfunction()
 
 # library
 add_library(logr
+    src/default.cpp
     src/logger.cpp
     src/record.cpp)
 target_compile_features(logr PUBLIC cxx_std_17)

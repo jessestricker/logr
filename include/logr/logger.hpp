@@ -7,14 +7,10 @@
 
 namespace logr {
   using Target = std::ostream;
-  Target* default_target() noexcept;
-
   using Formatter = void(Target& target, const Record& record);
-  Formatter* default_formatter() noexcept;
 
   class Logger {
   public:
-    Logger() = default;
     Logger(Target& target, Formatter& formatter);
 
     void append(const Record& record);
@@ -23,13 +19,13 @@ namespace logr {
     [[nodiscard]] Formatter* formatter() const noexcept;
     [[nodiscard]] Level threshold() const noexcept;
 
-    void set_target(Target* target) noexcept;
-    void set_formatter(Formatter* formatter) noexcept;
+    void set_target(Target& target) noexcept;
+    void set_formatter(Formatter& formatter) noexcept;
     void set_threshold(Level threshold);
 
   private:
-    Target* target_ = default_target();
-    Formatter* formatter_ = default_formatter();
+    Target* target_;
+    Formatter* formatter_;
     Level threshold_ = Level::Default;
     std::mutex mutex_;
   };

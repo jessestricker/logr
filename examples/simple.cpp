@@ -5,7 +5,7 @@
 using namespace std::chrono_literals;
 
 int main() {
-  auto log = logr::Logger();
+  auto log = logr::make_default_logger();
   auto rec = logr::Record{};
 
   rec.message = "hello";
