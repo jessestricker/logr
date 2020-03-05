@@ -18,6 +18,7 @@ int main() {
 
   std::this_thread::sleep_for(1s);
 
+  rec.src_loc = META_CURRENT_SOURCE_LOCATION;
   rec.message = "oh noo", rec.level = logr::Level::Error;
   log.append(rec);
 

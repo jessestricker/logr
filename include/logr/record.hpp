@@ -2,6 +2,7 @@
 #define LOGR_RECORD_HPP
 
 #include <chrono>
+#include <meta/source_location.hpp>
 #include <string>
 
 namespace logr {
@@ -15,11 +16,13 @@ namespace logr {
     Default = Info,
   };
 
-  using TimePoint = std::chrono::system_clock::time_point;
-
   struct Record {
+    using Clock = std::chrono::system_clock;
+    using TimePoint = Clock::time_point;
+
     TimePoint time = TimePoint::clock::now();
     Level level = Level::Default;
+    meta::SourceLocation src_loc;
     std::string message;
   };
 }
