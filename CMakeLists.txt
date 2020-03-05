@@ -9,3 +9,7 @@ add_library(log
 target_compile_features(log PUBLIC cxx_std_17)
 target_include_directories(log INTERFACE include)
 target_include_directories(log PRIVATE include/log)
+target_link_libraries(log PUBLIC meta)
+
+# dependencies
+add_subdirectory(lib/meta)
