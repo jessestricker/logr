@@ -1,2 +1,3 @@
-# log
+# logr
+
 Logging library for C++
