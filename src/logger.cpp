@@ -30,6 +30,9 @@ namespace {
     target << '[' << level_string(record.level) << ']';
     target << '[' << std::put_time(utc_time, "%F") << ']';
     target << '[' << std::put_time(utc_time, "%T") << ']';
+    if (record.src_loc != meta::SourceLocation{}) {
+      target << ' ' << record.src_loc << ':';
+    }
     target << ' ' << record.message << '\n';
   }
 }

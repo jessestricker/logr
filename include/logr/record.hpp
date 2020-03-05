@@ -2,6 +2,7 @@
 #define LOGR_RECORD_HPP
 
 #include <chrono>
+#include <meta/source_location.hpp>
 #include <string>
 
 namespace logr {
@@ -20,6 +21,7 @@ namespace logr {
   struct Record {
     TimePoint time = TimePoint::clock::now();
     Level level = Level::Default;
+    meta::SourceLocation src_loc;
     std::string message;
   };
 }
