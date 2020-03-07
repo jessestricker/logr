@@ -1,51 +1,16 @@
 #include "logger.hpp"
 
-#include <array>
-#include <ctime>
-#include <iomanip>
-#include <iostream>
-#include <locale>
-#include <string_view>
-#include <type_traits>
-
-#include "util.hpp"
-
-namespace {
-  using namespace logr;
-  using namespace std::string_view_literals;
-
-  constexpr auto level_string(Level level) noexcept {
-    constexpr auto str = std::array<std::string_view, 5>{"trc", "dbg", "inf", "wrn", "err"};
-    auto&& index = static_cast<std::underlying_type_t<Level>>(level);
-    return str.at(index);
-  }
-
-  void format_record(Target& target, const Record& record) {
-    const auto _ = util::IosStateSave(target);
-    target.imbue(std::locale::classic());
-
-    // write to target
-    auto&& time = decltype(record.time)::clock::to_time_t(record.time);
-    auto&& utc_time = std::gmtime(&time);
-    target << '[' << level_string(record.level) << ']';
-    target << '[' << std::put_time(utc_time, "%F") << ']';
-    target << '[' << std::put_time(utc_time, "%T") << ']';
-    target << ' ' << record.message << '\n';
-  }
-}
+#include "default.hpp"
 
 namespace logr {
-  Target* default_target() noexcept {
-    return &std::cerr;
-  }
-
-  Formatter* default_formatter() noexcept {
-    return &format_record;
-  }
-
   Logger::Logger(Target& target, Formatter& formatter)
       : target_{&target}
       , formatter_{&formatter} {
+  }
+
+  Logger& Logger::global() noexcept {
+    static auto instance = new Logger{make_default_logger()};
+    return *instance;
   }
 
   void Logger::append(const Record& record) {
@@ -59,18 +24,18 @@ namespace logr {
     return target_;
   }
 
-  void Logger::set_target(Target* target) noexcept {
+  void Logger::set_target(Target& target) noexcept {
     const auto _ = std::lock_guard{mutex_};
-    target_ = target ? target : default_target();
+    target_ = &target;
   }
 
   Formatter* Logger::formatter() const noexcept {
     return formatter_;
   }
 
-  void Logger::set_formatter(Formatter* formatter) noexcept {
+  void Logger::set_formatter(Formatter& formatter) noexcept {
     const auto _ = std::lock_guard{mutex_};
-    formatter_ = formatter ? formatter : default_formatter();
+    formatter_ = &formatter;
   }
 
   Level Logger::threshold() const noexcept {
@@ -80,5 +45,25 @@ namespace logr {
   void Logger::set_threshold(Level threshold) {
     const auto _ = std::lock_guard{mutex_};
     threshold_ = threshold;
+  }
+
+  RecordBuilder warning(Logger& logger, const meta::SourceLocation& src_loc) {
+    return build(logger, Level::Warning, src_loc);
+  }
+
+  RecordBuilder error(Logger& logger, const meta::SourceLocation& src_loc) {
+    return build(logger, Level::Error, src_loc);
+  }
+
+  RecordBuilder info(Logger& logger, const meta::SourceLocation& src_loc) {
+    return build(logger, Level::Info, src_loc);
+  }
+
+  RecordBuilder debug(Logger& logger, const meta::SourceLocation& src_loc) {
+    return build(logger, Level::Debug, src_loc);
+  }
+
+  RecordBuilder trace(Logger& logger, const meta::SourceLocation& src_loc) {
+    return build(logger, Level::Trace, src_loc);
   }
 }
