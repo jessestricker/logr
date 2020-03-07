@@ -56,32 +56,6 @@ namespace logr {
   };
 
   RecordBuilder do_log(Logger& logger, Level level, const meta::SourceLocation& src_loc = {});
-
-  inline RecordBuilder trace(Logger& logger, const meta::SourceLocation& src_loc = {}) {
-    return do_log(logger, Level::Trace, src_loc);
-  }
-
-  inline RecordBuilder debug(Logger& logger, const meta::SourceLocation& src_loc = {}) {
-    return do_log(logger, Level::Debug, src_loc);
-  }
-
-  inline RecordBuilder info(Logger& logger, const meta::SourceLocation& src_loc = {}) {
-    return do_log(logger, Level::Info, src_loc);
-  }
-
-  inline RecordBuilder warning(Logger& logger, const meta::SourceLocation& src_loc = {}) {
-    return do_log(logger, Level::Warning, src_loc);
-  }
-
-  inline RecordBuilder error(Logger& logger, const meta::SourceLocation& src_loc = {}) {
-    return do_log(logger, Level::Error, src_loc);
-  }
 }
-
-#define LOGR_LOG_TRACE(logger__) ::logr::trace(logger__, META_CURRENT_SOURCE_LOCATION)
-#define LOGR_LOG_DEBUG(logger__) ::logr::debug(logger__, META_CURRENT_SOURCE_LOCATION)
-#define LOGR_LOG_INFO(logger__) ::logr::info(logger__, META_CURRENT_SOURCE_LOCATION)
-#define LOGR_LOG_WARNING(logger__) ::logr::warning(logger__, META_CURRENT_SOURCE_LOCATION)
-#define LOGR_LOG_ERROR(logger__) ::logr::error(logger__, META_CURRENT_SOURCE_LOCATION)
 
 #endif // LOGR_RECORD_HPP
