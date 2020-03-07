@@ -48,22 +48,22 @@ namespace logr {
   }
 
   RecordBuilder warning(Logger& logger, const meta::SourceLocation& src_loc) {
-    return do_log(logger, Level::Warning, src_loc);
+    return build(logger, Level::Warning, src_loc);
   }
 
   RecordBuilder error(Logger& logger, const meta::SourceLocation& src_loc) {
-    return do_log(logger, Level::Error, src_loc);
+    return build(logger, Level::Error, src_loc);
   }
 
   RecordBuilder info(Logger& logger, const meta::SourceLocation& src_loc) {
-    return do_log(logger, Level::Info, src_loc);
+    return build(logger, Level::Info, src_loc);
   }
 
   RecordBuilder debug(Logger& logger, const meta::SourceLocation& src_loc) {
-    return do_log(logger, Level::Debug, src_loc);
+    return build(logger, Level::Debug, src_loc);
   }
 
   RecordBuilder trace(Logger& logger, const meta::SourceLocation& src_loc) {
-    return do_log(logger, Level::Trace, src_loc);
+    return build(logger, Level::Trace, src_loc);
   }
 }

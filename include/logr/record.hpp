@@ -52,10 +52,10 @@ namespace logr {
 
     RecordBuilder(Logger& logger, Level level, const meta::SourceLocation& src_loc);
 
-    friend RecordBuilder do_log(Logger& logger, Level level, const meta::SourceLocation& src_loc);
+    friend RecordBuilder build(Logger& logger, Level level, const meta::SourceLocation& src_loc);
   };
 
-  RecordBuilder do_log(Logger& logger, Level level, const meta::SourceLocation& src_loc = {});
+  RecordBuilder build(Logger& logger, Level level, const meta::SourceLocation& src_loc = {});
 }
 
 #endif // LOGR_RECORD_HPP
