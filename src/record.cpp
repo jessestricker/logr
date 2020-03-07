@@ -17,7 +17,7 @@ namespace logr {
     logger_.append(rec);
   }
 
-  RecordBuilder do_log(Logger& logger, Level level, const meta::SourceLocation& src_loc) {
+  RecordBuilder build(Logger& logger, Level level, const meta::SourceLocation& src_loc) {
     return {logger, level, src_loc};
   }
 }

@@ -21,6 +21,7 @@ target_link_libraries(logr PUBLIC meta)
 
 # examples
 logr_add_example(builder)
+logr_add_example(global)
 logr_add_example(simple)
 
 # dependencies

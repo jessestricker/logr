@@ -13,6 +13,8 @@ namespace logr {
   public:
     Logger(Target& target, Formatter& formatter);
 
+    static Logger& global() noexcept;
+
     void append(const Record& record);
 
     [[nodiscard]] const Target* target() const noexcept;
@@ -29,6 +31,24 @@ namespace logr {
     Level threshold_ = Level::Default;
     std::mutex mutex_;
   };
+
+  RecordBuilder trace(Logger& logger = Logger::global(), const meta::SourceLocation& src_loc = {});
+  RecordBuilder debug(Logger& logger = Logger::global(), const meta::SourceLocation& src_loc = {});
+  RecordBuilder info(Logger& logger = Logger::global(), const meta::SourceLocation& src_loc = {});
+  RecordBuilder warning(Logger& logger = Logger::global(), const meta::SourceLocation& src_loc = {});
+  RecordBuilder error(Logger& logger = Logger::global(), const meta::SourceLocation& src_loc = {});
 }
+
+#define LOGR_LOG_TRACE(logger__) ::logr::trace(logger__, META_CURRENT_SOURCE_LOCATION)
+#define LOGR_LOG_DEBUG(logger__) ::logr::debug(logger__, META_CURRENT_SOURCE_LOCATION)
+#define LOGR_LOG_INFO(logger__) ::logr::info(logger__, META_CURRENT_SOURCE_LOCATION)
+#define LOGR_LOG_WARNING(logger__) ::logr::warning(logger__, META_CURRENT_SOURCE_LOCATION)
+#define LOGR_LOG_ERROR(logger__) ::logr::error(logger__, META_CURRENT_SOURCE_LOCATION)
+
+#define LOGR_TRACE() LOGR_LOG_TRACE(::logr::Logger::global())
+#define LOGR_DEBUG() LOGR_LOG_DEBUG(::logr::Logger::global())
+#define LOGR_INFO() LOGR_LOG_INFO(::logr::Logger::global())
+#define LOGR_WARNING() LOGR_LOG_WARNING(::logr::Logger::global())
+#define LOGR_ERROR() LOGR_LOG_ERROR(::logr::Logger::global())
 
 #endif // LOGR_LOGGER_HPP
